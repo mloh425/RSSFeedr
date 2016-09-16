@@ -9,10 +9,8 @@
 import Foundation
 
 struct Article {
-    
     var articleTitle: String = ""
     var articleDescription: String = ""
     var articleLink: String = ""
     var articleImage: String = ""
-    
 }
