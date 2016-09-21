@@ -28,6 +28,11 @@ class ViewController: UIViewController, FeedModelDelegate {
         
         //Fire off request to DL articles in background, dont wait to set it to articles array.
         self.feedModel.getArticles()
+        
+        //Add Icon to nav item title bar
+        let titleIcon:UIImageView = UIImageView(frame: CGRectMake(0, 0, 33, 33))
+        titleIcon.image = UIImage(named: "JalopnikIcon")
+        self.navigationItem.titleView = titleIcon
     }
 
     override func didReceiveMemoryWarning() {

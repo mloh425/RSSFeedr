@@ -16,8 +16,12 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        //Add Icon on Navigation bar
+        let titleIcon:UIImageView = UIImageView(frame: CGRectMake(0, 0, 33, 33))
+        titleIcon.image = UIImage(named: "JalopnikIcon")
+        self.navigationItem.titleView = titleIcon
+
         if let actualArticle = self.articleToDisplay {
             //Create NSURL for article URL
             print(actualArticle.articleLink)
