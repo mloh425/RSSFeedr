@@ -81,4 +81,36 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
     }
+    
+    //Swipe to show share features in tableviewRow
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let shareRowAction = UITableViewRowAction(style: .Normal, title: "Share") { (action, index) in
+            let activityViewController = UIActivityViewController(activityItems: [self.articles[indexPath.row].articleLink], applicationActivities: nil)
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+        
+        //TODO: Add a favorite feature? How to persist? BackEnd? How to save a struct?
+        
+        shareRowAction.backgroundColor = UIColor(red: 14.0/255, green: 122.0/255, blue: 254.0/255, alpha: 1.0)
+        return [shareRowAction]
+    }
+    
+//    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+//        let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
+//            print("more button tapped")
+//        }
+//        more.backgroundColor = UIColor.lightGrayColor()
+//        
+//        let favorite = UITableViewRowAction(style: .Normal, title: "Favorite") { action, index in
+//            print("favorite button tapped")
+//        }
+//        favorite.backgroundColor = UIColor.orangeColor()
+//        
+//        let share = UITableViewRowAction(style: .Normal, title: "Share") { action, index in
+//            print("share button tapped")
+//        }
+//        share.backgroundColor = UIColor.blueColor()
+//        
+//        return [share, favorite, more]
+//    }
 }
