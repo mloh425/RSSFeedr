@@ -14,7 +14,7 @@ protocol FeedModelDelegate {
     func articlesReady()
 }
 
-class FeedModel: NSObject, NSXMLParserDelegate {
+class FeedModel: NSObject, XMLParserDelegate {
     
     let feedUrlString: String = "https://jalopnik.com/rss"
     var articles: [Article] = [Article]()
@@ -23,14 +23,14 @@ class FeedModel: NSObject, NSXMLParserDelegate {
     
     func getArticles(){
         //Create URL
-        let feedUrl:NSURL? = NSURL(string: feedUrlString) //initializer returns optional
+        let feedUrl:URL? = URL(string: feedUrlString) //initializer returns optional
         
         //Listen to notification center
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(FeedModel.parserFinished), name: "feedParserFinished", object: self.feedParser)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(FeedModel.parserFinished), name: NSNotification.Name(rawValue: "feedParserFinished"), object: self.feedParser)
         
         //Kick off feed helper to parse NSURL
-        self.feedParser.startParsing(feedUrl!)
+        self.feedParser.startParsing(feedUrl: feedUrl!)
     }
     
     func parserFinished() {

@@ -13,4 +13,5 @@ struct Article {
     var articleDescription: String = ""
     var articleLink: String = ""
     var articleImage: String = ""
+    var articleFavorited: Bool = false
 }

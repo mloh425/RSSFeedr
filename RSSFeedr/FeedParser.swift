@@ -8,8 +8,12 @@
 
 import Foundation
 
-class FeedParser: NSObject, NSXMLParserDelegate {
-    //Parse Variable
+class FeedParser: NSObject, XMLParserDelegate {
+    
+    //Article Cache to prevent duplicate articles
+    static var articleCache = [String: Article]()
+    
+    //Parsing Variables
     var currentElement: String = ""
     var foundCharacters: String = ""
     var attributes: [NSObject: AnyObject]?
@@ -20,8 +24,8 @@ class FeedParser: NSObject, NSXMLParserDelegate {
         super.init()
     }
     
-    func startParsing(feedUrl: NSURL) {
-        let feedParser:NSXMLParser? = NSXMLParser(contentsOfURL: feedUrl)
+    func startParsing(feedUrl: URL) {
+        let feedParser:XMLParser? = XMLParser(contentsOf: feedUrl)
         if let actualFeedParser = feedParser {
             //Download feed and parse out articles
             actualFeedParser.delegate = self
@@ -30,7 +34,7 @@ class FeedParser: NSObject, NSXMLParserDelegate {
     }
     
     //item, title, link, description tags are ones we care about
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         if elementName == "item" {
             //Cleared characters because was picking up random characters
             //Also since Description is the last element being checked on, this clears all the characters from Description tag
@@ -43,7 +47,7 @@ class FeedParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
         if currentElement == "item" ||
             currentElement == "title" ||
             currentElement == "link" ||
@@ -52,10 +56,14 @@ class FeedParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            //Parsing of item is complete
-            self.articles.append(self.currentlyConstructingArticle)
+            //Parsing of item is complete if article does not exist already, append it
+            if FeedParser.articleCache[currentlyConstructingArticle.articleTitle] == nil {
+                FeedParser.articleCache[currentlyConstructingArticle.articleTitle] = currentlyConstructingArticle
+                self.articles.append(self.currentlyConstructingArticle)
+                self.currentlyConstructingArticle = Article()
+            }
             //start new article
             self.currentlyConstructingArticle = Article()
         }
@@ -70,22 +78,22 @@ class FeedParser: NSObject, NSXMLParserDelegate {
             //Extract image content and save to imageURL property of article object
             //Assume that the link exists
             //Use range to extract image content
-            if let startRange = foundCharacters.rangeOfString("http", options:NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) {
-                if let endRange = foundCharacters.rangeOfString(".jpg", options:NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) {
-                    let imageLink = foundCharacters.substringWithRange(startRange.startIndex..<endRange.endIndex)
+            if let startRange = foundCharacters.range(of: "http", options: String.CompareOptions.caseInsensitive, range: nil, locale: nil) {
+                if let endRange = foundCharacters.range(of: ".jpg", options: String.CompareOptions.caseInsensitive, range: nil, locale: nil) {
+                    let imageLink = foundCharacters.substring(with: startRange.lowerBound..<endRange.upperBound)
                     self.currentlyConstructingArticle.articleImage = imageLink
-                } else if let endRange = foundCharacters.rangeOfString(".png", options:NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) {
-                    let imageLink = foundCharacters.substringWithRange(startRange.startIndex..<endRange.endIndex)
+                } else if let endRange = foundCharacters.range(of: ".png", options: String.CompareOptions.caseInsensitive, range: nil, locale: nil) {
+                    let imageLink = foundCharacters.substring(with: startRange.lowerBound..<endRange.upperBound)
                     self.currentlyConstructingArticle.articleImage = imageLink
-                    
-                } else if let endRange = foundCharacters.rangeOfString(".gif", options:NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) {
-                    let imageLink = foundCharacters.substringWithRange(startRange.startIndex..<endRange.endIndex)
+                } else if let endRange = foundCharacters.range(of: ".gif", options: String.CompareOptions.caseInsensitive, range: nil, locale: nil) {
+                    let imageLink = foundCharacters.substring(with: startRange.lowerBound..<endRange.upperBound)
                     self.currentlyConstructingArticle.articleImage = imageLink
+                } else {
+                    self.currentlyConstructingArticle.articleImage = "http://img.gawkerassets.com/img/1961cyhh037n5png/original.png"
                 }
             }
-            //            //Find Image Link by splitting description by "'s
+            //            //Find Image Link by splitting description by quotes into array
             //
-            //            //This seems faster/more efficient in loading pictures than splitting the string?
             //            var descriptionSplitArray = foundCharacters.characters.split{$0 == "\""}.map(String.init)
             //            if descriptionSplitArray.count > 1 {
             //                let imageLink: String = descriptionSplitArray[1]
@@ -100,9 +108,10 @@ class FeedParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    func parserDidEndDocument(parser: NSXMLParser) {
+    func parserDidEndDocument(_ parser: XMLParser) {
         //Use notification center to notify feedmodel
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName("feedParserFinished", object: self) //specify self because observer is listening to this object specifically
+        let notificationCenter = NotificationCenter.default
+        //specify self because observer is listening to an instance of this object specifically
+        notificationCenter.post(name: NSNotification.Name(rawValue: "feedParserFinished"), object: self)
     }
 }

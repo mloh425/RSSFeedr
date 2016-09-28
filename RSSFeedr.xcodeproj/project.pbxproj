@@ -20,6 +20,7 @@
 		342DED541D88B9260034AA9C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342DED531D88B9260034AA9C /* Article.swift */; };
 		342DED571D8A27AC0034AA9C /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342DED561D8A27AC0034AA9C /* ArticleTableViewCell.swift */; };
 		342DED591D8B565D0034AA9C /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342DED581D8B565D0034AA9C /* ImageDownloader.swift */; };
+		34C281841D9B4CD8008E54FB /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C281831D9B4CD8008E54FB /* FavoritesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		342DED531D88B9260034AA9C /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		342DED561D8A27AC0034AA9C /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
 		342DED581D8B565D0034AA9C /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		34C281831D9B4CD8008E54FB /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				342DED1F1D88AF930034AA9C /* ViewController.swift */,
+				34C281831D9B4CD8008E54FB /* FavoritesTableViewController.swift */,
 				342DED4C1D88B53E0034AA9C /* DetailViewController.swift */,
 			);
 			name = Controller;
@@ -235,13 +238,18 @@
 				TargetAttributes = {
 					342DED191D88AF930034AA9C = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = VY8QJTK3VG;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					342DED2D1D88AF930034AA9C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 342DED191D88AF930034AA9C;
 					};
 					342DED381D88AF930034AA9C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 342DED191D88AF930034AA9C;
 					};
 				};
@@ -301,6 +309,7 @@
 				342DED4D1D88B53E0034AA9C /* DetailViewController.swift in Sources */,
 				342DED201D88AF930034AA9C /* ViewController.swift in Sources */,
 				342DED591D8B565D0034AA9C /* ImageDownloader.swift in Sources */,
+				34C281841D9B4CD8008E54FB /* FavoritesTableViewController.swift in Sources */,
 				342DED541D88B9260034AA9C /* Article.swift in Sources */,
 				342DED1E1D88AF930034AA9C /* AppDelegate.swift in Sources */,
 				342DED4F1D88B8E60034AA9C /* FeedModel.swift in Sources */,
@@ -449,10 +458,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = VY8QJTK3VG;
 				INFOPLIST_FILE = RSSFeedr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mattloh.RSSFeedr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -460,10 +472,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = VY8QJTK3VG;
 				INFOPLIST_FILE = RSSFeedr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mattloh.RSSFeedr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -475,6 +490,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mattloh.RSSFeedrTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RSSFeedr.app/RSSFeedr";
 			};
 			name = Debug;
@@ -487,6 +503,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mattloh.RSSFeedrTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RSSFeedr.app/RSSFeedr";
 			};
 			name = Release;
@@ -498,6 +515,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mattloh.RSSFeedrUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = RSSFeedr;
 			};
 			name = Debug;
@@ -509,6 +527,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mattloh.RSSFeedrUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = RSSFeedr;
 			};
 			name = Release;
@@ -532,6 +551,7 @@
 				342DED441D88AF930034AA9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		342DED451D88AF930034AA9C /* Build configuration list for PBXNativeTarget "RSSFeedrTests" */ = {
 			isa = XCConfigurationList;
@@ -540,6 +560,7 @@
 				342DED471D88AF930034AA9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		342DED481D88AF930034AA9C /* Build configuration list for PBXNativeTarget "RSSFeedrUITests" */ = {
 			isa = XCConfigurationList;
@@ -548,6 +569,7 @@
 				342DED4A1D88AF930034AA9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

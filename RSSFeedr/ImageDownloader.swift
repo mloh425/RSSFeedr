@@ -13,17 +13,20 @@ class ImageDownloader {
     
     class func downloadImage(article: Article) -> UIImage? {
         if imageCache[article.articleTitle] == nil {
-            if let imageURL = NSURL(string: article.articleImage),
-                let imageData = NSData(contentsOfURL: imageURL),
-                let image = UIImage(data: imageData)  {
-                //        var size = determineProfileImageSize()
-                //       let resizedImage = ImageResizer.resizeImage(image, size: size)
-                imageCache[article.articleTitle] = image
-                return image
+            if let imageURL = URL(string: article.articleImage) {
+                do {
+                    let imageData = try Data(contentsOf: imageURL)
+                    let image = UIImage(data: imageData)
+                    imageCache[article.articleTitle] = image
+                    return image
+                } catch {
+                    print("Error downloading image.")
+                }
             }
         } else {
             return imageCache[article.articleTitle]
         }
         return nil
     }
+    
 }
